@@ -21,16 +21,16 @@ public class Item {
 	
 	public void addData(EnumStat stat, String data){
 		switch(stat){
-		case I_DESC:
+		case DESC:
 			description += data;
 			break;
-		case I_LINK:
+		case LINK:
 			link += data;
 			break;
-		case I_TITLE:
+		case TITLE:
 			title += data;
 			break;	
-		case O_DATE:
+		case DATE:
 			pubDate += data;
 			break;
 		}

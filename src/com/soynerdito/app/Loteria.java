@@ -26,19 +26,19 @@ public class Loteria {
 	
 	public void addData(EnumStat stat, String data){
 		switch(stat){
-		case M_COPY:
+		case COPY:
 			copyright += data;
 			break;
-		case M_LINK:
+		case LINK:
 			link += data;
 			break;
-		case M_DESC:
+		case DESC:
 			description += data;
 			break;
-		case M_TITLE:
+		case TITLE:
 			title += data;
 			break;
-		case M_TTL:
+		case TTL:
 			break;
 		}
 	}

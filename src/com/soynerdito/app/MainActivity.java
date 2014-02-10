@@ -22,9 +22,7 @@ public class MainActivity extends Activity {
 		//mPlanetTitles = getResources().getStringArray(R.array.planets_array);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
-dsa'dsajkfajdsa
-dakljdaldsa
-kljadjlkads
+
 		// Set the adapter for the list view
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 		android.R.layout.simple_list_item_1, mPlanetTitles));
