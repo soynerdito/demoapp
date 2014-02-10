@@ -18,26 +18,21 @@ import android.widget.ListView;
 
 public class RSSFeedAct extends Activity {
 
-    public void setLoteria(Loteria value ){
-    	if( value!=null ){
-    		ListView lvItems = (ListView)findViewById(R.id.listView1);
-    		lvItems.setAdapter(new ItemAdapter(this,
-    				value.items) );
-    		//.toArray(new Item[value.items.size()])));
-    		
-    	}
-    	
-    }
-	
+	public void setLoteria(Loteria value) {
+		if (value != null) {
+			ListView lvItems = (ListView) findViewById(R.id.listView1);
+			lvItems.setAdapter(new ItemAdapter(this, value.items));
+		}
+
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
 		RetreiveFeedTask task = new RetreiveFeedTask();
-				task.execute("http://www.loteriaelectronicapr.com/Games/rss2.aspx");
-		
-				
+		task.execute("http://www.loteriaelectronicapr.com/Games/rss2.aspx");
 	}
 
 	/**
@@ -47,64 +42,42 @@ public class RSSFeedAct extends Activity {
 	 */
 	private class RSSHandler extends DefaultHandler {
 		private Loteria rssLoteria = null;
-		
-		private Item currItem =null;
+		private Item currItem = null;
 		private EnumStat currStat = EnumStat.NONE;
-
 		private boolean inItems = false;
-		
-		private EnumStat[] masterItm = { EnumStat.M_COPY,
-				EnumStat.M_DESC, EnumStat.M_LINK, EnumStat.M_TITLE,
-				EnumStat.M_TTL };
-		
-		private EnumStat[] childItm = { EnumStat.I_DESC,
-				EnumStat.I_LINK, EnumStat.I_TITLE, 
-				EnumStat.O_DATE };
 
 		public void startElement(String uri, String localName, String qName,
 				Attributes attrs) throws SAXException {
-
+			//just initialize Loteria instance
 			if (rssLoteria == null) {
 				rssLoteria = new Loteria();
 			}
-			if( currItem == null ){
+			
+			currStat = EnumStat.fromString(localName);
+			//Starting a new Item
+			if (currStat == EnumStat.ITEM ) {
+				inItems = true;
 				currItem = new Item();
 			}
-			if (!inItems) {
-				for( int i=0; i< masterItm.length; i++ ){
-					if (localName.equals(masterItm[i].caption))
-						currStat = masterItm[i];
-				}				
-			} else {
-				for( int i=0; i< childItm.length; i++ ){
-					if (localName.equals(childItm[i].caption))
-						currStat = childItm[i];
-				}
-			}
-			
-			
-
-			System.out.print("STATU Start");
-
 		}
 
 		public void endElement(String namespaceURI, String localName,
 				String qName) throws SAXException {
-			System.out.print("STATU end");
-			if( currStat == EnumStat.M_TTL ){
-				inItems =  true;
-			}else if( currItem!= null && inItems && currStat == EnumStat.I_LINK ){
+			System.out.print("STATU end " + currStat.caption );
+			if (EnumStat.fromString(localName) == EnumStat.ITEM && currItem != null) {
 				rssLoteria.items.add(currItem);
 				currItem = null;
 			}
+			//clear current status
+			currStat = EnumStat.NONE;
 		}
 
 		public void characters(char[] ch, int start, int length)
 				throws SAXException {
-			if( !inItems ){
-				rssLoteria.addData(currStat, new String(ch, start, length) );	
-			}else{
-				currItem.addData(currStat, new String(ch, start, length) );
+			if (!inItems) {
+				rssLoteria.addData(currStat, new String(ch, start, length));
+			} else {
+				currItem.addData(currStat, new String(ch, start, length));
 			}
 		}
 
@@ -118,7 +91,7 @@ public class RSSFeedAct extends Activity {
 
 		private Exception exception;
 		private Loteria result = null;
-		
+
 		protected Loteria doInBackground(String... urls) {
 			try {
 				URL url = new URL(urls[0]);
@@ -141,7 +114,6 @@ public class RSSFeedAct extends Activity {
 			// TODO: check this.exception
 			// TODO: do something with the feed
 			RSSFeedAct.this.setLoteria(result);
-			//feed.setLoteria(result);
 		}
 	}
 }
