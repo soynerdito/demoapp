@@ -3,6 +3,7 @@ package com.soynerdito.app;
 import java.util.List;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +45,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		//holder.tx2.setText(item.description); 
 		holder.tx3.setText(item.link); 
 		//holder.tx4.setText(item.pubDate);
-		holder.tx2.setVisibility(View.INVISIBLE);
-		holder.tx4.setVisibility(View.INVISIBLE);
-		holder.wv1.loadData(item.description + item.pubDate,  "text/html", null);
+		holder.tx2.setVisibility(View.GONE);
+		holder.tx4.setVisibility(View.GONE);		
+
+		holder.wv1.loadData(item.description + item.pubDate ,  "text/html", null);		
+		
 		return v;
 	}
 
