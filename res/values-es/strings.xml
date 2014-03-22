@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Test RSS Feed Parse</string>
+    <string name="app_name">Loteria RSS Reader</string>
     <string name="action_settings">Configuracion</string>
     <string name="hello_world">Hola mundo</string>
 

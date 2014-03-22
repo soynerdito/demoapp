@@ -65,6 +65,7 @@ public class RSSFeedAct extends Activity {
 				String qName) throws SAXException {
 			System.out.print("STATU end " + currStat.caption );
 			if (EnumStat.fromString(localName) == EnumStat.ITEM && currItem != null) {
+				currItem.loadExternalData( RSSFeedAct.this);
 				rssLoteria.items.add(currItem);
 				currItem = null;
 			}
